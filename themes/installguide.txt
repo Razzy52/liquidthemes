@@ -1,1 +1,5 @@
-install guide coming soon
+How to use themes
+in a server write in the chat ".client theme browse" it will open a folder to put your themes in
+after putting your theme in write ".client theme set <theme>" if you entered the correct name it should make the theme appear
+
+video soon
