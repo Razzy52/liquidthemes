@@ -18,4 +18,4 @@ Contributions to this repository are welcome! If you have created a stunning the
 
 ## License
 
-All themes in this repository are licensed under the [MIT License](LICENSE.md). You are free to use, modify, and distribute these themes for personal or commercial purposes.
+All themes in this repository are licensed under the [GPL3](LICENSE.md). You are free to use, modify, and distribute these themes for personal or commercial purposes.
