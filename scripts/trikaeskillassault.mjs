@@ -38,7 +38,7 @@ script.registerModule(
     mod.on("playerTick", () => {
       if (!currentTarget || currentTarget.isAlive()) return;
 
-      const enemyName = currentTarget.getName().getString();
+      const enemyName = currentTarget.name.string;
       const toxicWords = mod.settings.toxicWords.value;
 
       let message = selectRandomToxicMessage(toxicWords, enemyName);
