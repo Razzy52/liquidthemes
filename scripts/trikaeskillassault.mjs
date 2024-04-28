@@ -82,28 +82,22 @@ script.registerModule(
       if (mod.enabled && event.enemy && event.enemy instanceof PlayerEntity) {
         const enemyString = event.enemy.toString();
         const firstQuoteIndex = enemyString.indexOf("'");
-        if (firstQuoteIndex !== -1) {
-          const secondQuoteIndex = enemyString.indexOf(
-            "'",
-            firstQuoteIndex + 1
-          );
-          if (secondQuoteIndex !== -1) {
-            currentTarget = enemyString.substring(
-              firstQuoteIndex + 1,
-              secondQuoteIndex
-            );
-            enemyVar = event.enemy;
-          } else {
-            currentTarget = null;
-            enemyVar = null;
-          }
-        }
+        const secondQuoteIndex = enemyString.indexOf("'", firstQuoteIndex + 1);
+        currentTarget =
+          secondQuoteIndex !== -1
+            ? enemyString.substring(firstQuoteIndex + 1, secondQuoteIndex)
+            : null;
+        enemyVar = currentTarget !== null ? event.enemy : null;
       }
     });
 
     mod.on("playerTick", () => {
-      if (!currentTarget || !enemyVar) return;
-      if (enemyVar.isAlive()) return;
+      if (!currentTarget || !enemyVar) {
+        return;
+      }
+      if (enemyVar.isAlive()) {
+        return;
+      }
 
       const toxicWords = mod.settings.toxicWords.value;
       let message = selectRandomToxicMessage(toxicWords, currentTarget);
@@ -112,7 +106,7 @@ script.registerModule(
         message += generateRandomString(1, 5);
       }
 
-      NetworkUtil.sendChatMessage(message);
+      Client.displayChatMessage(message);
       currentTarget = null;
     });
   }
@@ -120,10 +114,7 @@ script.registerModule(
 
 function selectRandomToxicMessage(toxicWords, targetName) {
   const randomIndex = Math.floor(Math.random() * toxicWords.length);
-  let message = toxicWords[randomIndex];
-
-  message = message.split("{TARGET}").join(targetName);
-
+  let message = toxicWords[randomIndex].replace("{TARGET}", targetName);
   return message;
 }
 
