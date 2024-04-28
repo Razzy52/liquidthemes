@@ -105,8 +105,7 @@ script.registerModule(
       if (mod.settings.randomize.value) {
         message += generateRandomString(1, 5);
       }
-
-      Client.displayChatMessage(message);
+      NetworkUtil.sendChatMessage(message);
       currentTarget = null;
     });
   }
