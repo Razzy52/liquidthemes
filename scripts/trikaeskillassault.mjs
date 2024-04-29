@@ -9,9 +9,16 @@ const script = registerScript({
 let currentTarget = null;
 let enemyVar = null;
 
+const replacements = {
+  liquidbounce: "l1qu1db0unce",
+  ".net": "[dot]net",
+  rape: "r4p3",
+  sexier: "s3x1er",
+};
+
 script.registerModule(
   {
-    name: "Killassault",
+    name: "KillInsults",
     category: "Fun",
     description: "Insults the enemy you killed",
     settings: {
@@ -79,7 +86,11 @@ script.registerModule(
   },
   (mod) => {
     mod.on("attack", (event) => {
-      if (mod.enabled && event.enemy && event.enemy instanceof PlayerEntity) {
+      if (
+        !currentTarget &&
+        event.enemy &&
+        event.enemy instanceof PlayerEntity
+      ) {
         const enemyString = event.enemy.toString();
         const firstQuoteIndex = enemyString.indexOf("'");
         const secondQuoteIndex = enemyString.indexOf("'", firstQuoteIndex + 1);
@@ -92,12 +103,8 @@ script.registerModule(
     });
 
     mod.on("playerTick", () => {
-      if (!currentTarget || !enemyVar) {
-        return;
-      }
-      if (enemyVar.isAlive()) {
-        return;
-      }
+      if (!currentTarget || !enemyVar) return;
+      if (enemyVar.isAlive()) return;
 
       const toxicWords = mod.settings.toxicWords.value;
       let message = selectRandomToxicMessage(toxicWords, currentTarget);
@@ -105,15 +112,37 @@ script.registerModule(
       if (mod.settings.randomize.value) {
         message += generateRandomString(1, 5);
       }
+
       NetworkUtil.sendChatMessage(message);
       currentTarget = null;
+      enemyVar = null;
     });
   }
 );
 
 function selectRandomToxicMessage(toxicWords, targetName) {
   const randomIndex = Math.floor(Math.random() * toxicWords.length);
-  let message = toxicWords[randomIndex].replace("{TARGET}", targetName);
+  let message = toxicWords[randomIndex];
+
+  const words = message.split(" ");
+
+  for (let i = 0; i < words.length; i++) {
+    const wordLower = words[i].toLowerCase();
+    for (const key in replacements) {
+      const keyLower = key.toLowerCase();
+      if (wordLower.includes(keyLower)) {
+        words[i] = replacements[key];
+        break;
+      }
+    }
+  }
+
+  message = words.join(" ");
+
+  while (message.includes("{TARGET}")) {
+    message = message.replace("{TARGET}", targetName);
+  }
+
   return message;
 }
 
