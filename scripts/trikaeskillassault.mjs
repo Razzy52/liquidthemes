@@ -7,6 +7,7 @@ const script = registerScript({
 });
 
 let currentTarget = null;
+let previousTarget = null;
 let enemyVar = null;
 
 const replacements = {
@@ -86,36 +87,35 @@ script.registerModule(
   },
   (mod) => {
     mod.on("attack", (event) => {
-      if (
-        !currentTarget &&
-        event.enemy &&
-        event.enemy instanceof PlayerEntity
-      ) {
-        const enemyString = event.enemy.toString();
-        const firstQuoteIndex = enemyString.indexOf("'");
-        const secondQuoteIndex = enemyString.indexOf("'", firstQuoteIndex + 1);
-        currentTarget =
-          secondQuoteIndex !== -1
-            ? enemyString.substring(firstQuoteIndex + 1, secondQuoteIndex)
-            : null;
-        enemyVar = currentTarget !== null ? event.enemy : null;
+      if (!(event.enemy instanceof PlayerEntity)) {
+        return;
       }
+
+      const enemyString = event.enemy.toString();
+      const firstQuoteIndex = enemyString.indexOf("'");
+      const secondQuoteIndex = enemyString.indexOf("'", firstQuoteIndex + 1);
+      currentTarget =
+        secondQuoteIndex !== -1
+          ? enemyString.substring(firstQuoteIndex + 1, secondQuoteIndex)
+          : null;
+      enemyVar = currentTarget !== null ? event.enemy : null;
     });
 
     mod.on("playerTick", () => {
-      if (!currentTarget || !enemyVar) return;
+      if (!enemyVar || !currentTarget) return;
       if (enemyVar.isAlive()) return;
 
-      const toxicWords = mod.settings.toxicWords.value;
-      let message = selectRandomToxicMessage(toxicWords, currentTarget);
+      if (currentTarget !== previousTarget) {
+        const toxicWords = mod.settings.toxicWords.value;
+        let message = selectRandomToxicMessage(toxicWords, currentTarget);
 
-      if (mod.settings.randomize.value) {
-        message += generateRandomString(1, 5);
+        if (mod.settings.randomize.value) {
+          message += generateRandomString(1, 5);
+        }
+
+        NetworkUtil.sendChatMessage(message);
+        previousTarget = currentTarget;
       }
-
-      NetworkUtil.sendChatMessage(message);
-      currentTarget = null;
-      enemyVar = null;
     });
   }
 );
