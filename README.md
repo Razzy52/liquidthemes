@@ -2,8 +2,25 @@
 
 LiquidThemes is a repository focused on custom themes for LiquidBounce next-gen, making your user experience better!
 
+# Themes
+The following themes are present here. Links are created for themes that are not in this repo.
+
+- CleanestPink
+- Gray
+- JelloV1
+- JelloV2
+- LiquidHook
+- Purple
+- Rise (Trikaes)
+- Round
+- Sigma5
+- [SimpleBounce](https://github.com/liquidsquid1/simplebounce) (no longer maintained)
+- Wurst
+- [Catppuccin](https://github.com/liquidsquid1/catppuccin-lb)
+
 # Important
-THESE THEMES ARE SUBJECT TO BREAK AND ARE NOT UPDATED AUTOMATICALLY, IF YOU WISH TO GET LATEST VERSION OF A THEME, CONTACT THE ORIGINAL OWNERS                 
+THESE THEMES ARE SUBJECT TO BREAK AND ARE NOT UPDATED AUTOMATICALLY, IF YOU WISH TO GET LATEST VERSION OF A THEME, CONTACT THE ORIGINAL OWNERS
+With older themes, there are common issues like the arraylist not working. If this happens, a theme is outdated.         
 I take no personal responsibility if there is malware in these files, I will try my best to proof check these, but there will always be vulnerabilities. 
 
 ## Installation
