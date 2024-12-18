@@ -3,6 +3,7 @@
 LiquidThemes is a repository focused on custom themes for LiquidBounce next-gen, making your user experience better!
 
 # Important
+THESE THEMES ARE SUBJECT TO BREAK AND ARE NOT UPDATED AUTOMATICALLY, IF YOU WISH TO GET LATEST VERSION OF A THEME, CONTACT THE ORIGINAL OWNERS
 I take no personal responsibility if there is malware in these files, I will try my best to proof check these, but there will always be vulnerabilities. 
 
 ## Installation
